@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "element-react": "^1.4.23",
+    "element-theme-default": "^1.4.13",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-scripts": "2.0.5"
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.0.5",
+    "zent": "^6.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
