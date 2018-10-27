@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "element-react": "^1.4.23",
     "element-theme-default": "^1.4.13",
     "react": "^16.6.0",
@@ -17,6 +18,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://127.0.0.1:7001",
   "eslintConfig": {
     "extends": "react-app"
   },

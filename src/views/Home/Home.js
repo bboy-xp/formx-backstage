@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './Home.css';
-
-import { Button } from 'zent';
+import axios from 'axios';
+//引入zent组件
+import { Table } from 'zent';
+import { Button } from 'element-react';
 
 
 export default class Home extends Component {
@@ -12,12 +14,13 @@ export default class Home extends Component {
   }
   async componentWillMount() {
     document.title = "首页";
+    const forms = await axios.get('/backstage/getForms');
+    console.log(forms);
   }
 
   render() {
     return (
       <div className="homeContainer">
-      <Button>34363</Button>
       </div>
     )
   }

@@ -3,7 +3,8 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import Home from './views/Home/Home';
 
 import './App.css';
-
+//引入element-react
+import 'element-theme-default';
 //引入zent组件库样式
 import 'zent/css/index.css';
 
