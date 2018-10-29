@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Home.css';
+import './FormPage.css';
 import axios from 'axios';
 
 //引入图片
@@ -8,7 +8,7 @@ import quitImg from '../../assets/img/quit.png';
 import logoImg from '../../assets/img/logo-xp.png';
 import positionImg from '../../assets/img/position.png';
 
-import { Button, Menu, Breadcrumb, Icon, Tag, Table } from 'element-react';
+import { Button, Menu, Breadcrumb } from 'element-react';
 import { isThisWeek } from 'date-fns';
 
 
@@ -18,77 +18,33 @@ export default class Home extends Component {
     super(props);
     this.state = {
       date: new Date(),
-      allForms: [],
-      columns: [
-        {
-          type: 'index'
-        },
-        {
-          label: "日期",
-          prop: "createdAt",
-          width: 250,
-          render: function (data) {
-            return (
-              <span>
-                <Icon name="time" />
-                <span style={{ marginLeft: '10px' }}>{data.createdAt}</span>
-              </span>)
-          }
-        },
-        {
-          label: "标题",
-          prop: "name",
-          render: function (data) {
-            return <Tag type="primary">{data.name}</Tag>
-          }
-        },
-        {
-          label: "操作",
-          prop: "address",
-          width: 250,
-          render: (row, column, index) => {
-            return (
-              <span>
-                <Button onClick={this.test.bind(this, row)} plain={true} type="info" size="small">查看</Button>
-                <Button type="danger" size="small">删除</Button>
-              </span>
-            )
-          }
-        }
-      ]
+      formToken: '',
     };
   }
   async componentWillMount() {
-    document.title = "首页";
-    const forms = await axios.get('/backstage/getForms');
-    this.setState({
-      allForms: forms.data
-    })
-    console.log(forms.data);
+    document.title = "表单后台";
+
+    //发送请求
 
     //时间组件
     setInterval(
       () => this.tick(),
-      60000
+      300
     );
+
+    // console.log(this.props.location.query.formToken);
+    // this.setState({
+    //   formToken: this.props.location.query.formToken
+    // });
+    this.setState({
+      formToken: '93TEUYFvPK'
+    });
   }
   tick() {
     this.setState({
       date: new Date()
     });
   }
-  
-  test(row) {
-    console.log(row);
-    const queryData = {
-      formToken: row.token
-    }
-    this.props.history.push({
-      pathname: '/formPage',
-      query: queryData
-    })
-  }
-
   render() {
     return (
       <div className="homeContainer">
@@ -118,6 +74,7 @@ export default class Home extends Component {
                 <Breadcrumb separator="/">
                   <Breadcrumb.Item>首页</Breadcrumb.Item>
                   <Breadcrumb.Item>表单列表</Breadcrumb.Item>
+                  <Breadcrumb.Item>表单</Breadcrumb.Item>
                 </Breadcrumb>
               </div>
               <div className="bodyContent-header-date">
@@ -134,14 +91,7 @@ export default class Home extends Component {
               </div>
             </div>
             <div className="bodyContent-body">
-              <Table
-                style={{ width: '100%' }}
-                columns={this.state.columns}
-                data={this.state.allForms}
-                border={true}
-                height={700}
-                highlightCurrentRow={true}
-              />
+
             </div>
           </div>
         </div>
