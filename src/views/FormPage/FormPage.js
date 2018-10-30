@@ -8,7 +8,7 @@ import quitImg from '../../assets/img/quit.png';
 import logoImg from '../../assets/img/logo-xp.png';
 import positionImg from '../../assets/img/position.png';
 
-import { Button, Menu, Breadcrumb } from 'element-react';
+import { Button, Menu, Breadcrumb, Table } from 'element-react';
 import { isThisWeek } from 'date-fns';
 
 
@@ -19,6 +19,11 @@ export default class Home extends Component {
     this.state = {
       date: new Date(),
       formToken: '',
+      form: {},
+      formDatas: [],
+      columns: [{
+        type: 'index'
+      }],
     };
   }
   async componentWillMount() {
@@ -32,18 +37,71 @@ export default class Home extends Component {
       300
     );
 
+    //获取formToken
     // console.log(this.props.location.query.formToken);
     // this.setState({
     //   formToken: this.props.location.query.formToken
     // });
+    // const token = this.props.location.query.formToken;
+    const token = "OGd0EOjyTv";
     this.setState({
-      formToken: '93TEUYFvPK'
+      formToken: token
     });
+
+    //获取目标表单数据，和表单提交的数据
+    const getFormPageData = await axios.post('/backstage/getFormPageData', {
+      formToken: token
+    });
+    console.log(getFormPageData.data);
+    const newColumns = getFormPageData.data.columns;
+    newColumns.push({
+      label: "操作",
+      render: (row, column, index) => {
+        return <span><Button type="text" size="small" onClick={this.deleteRow.bind(this, index)}>移除</Button></span>
+      }
+    })
+    this.setState({
+      columns: newColumns,
+      // formDatas: getFormPageData.data.formDatas
+    })
+    // this.setState({
+    //   form: getFormPageData.data.targetForm,
+    //   formDatas: getFormPageData.data.targetFormDatas
+    // })
+
+    //重构formDatas
+
+    //build Table的column
+    // const formFields = getFormPageData.data.targetForm.fields;
+    // const newColumns = this.state.columns;
+    // console.log(formFields);
+    // formFields.map((field, index) => {
+    //   if (field.type === 'text') {
+    //     newColumns.push({
+    //       label: field.title,
+    //       prop: `${field.token}`,
+    //       width: 250,
+    //     })
+    //   } else if (field.type === 'choice') {
+    //     newColumns.push({
+    //       label: field.title,
+    //       prop: `${field.token}`,
+    //       width: 250,
+    //     })
+    //   }
+    // });
+    // console.log(newColumns);
+    // this.setState({
+    //   columns: newColumns
+    // })
   }
   tick() {
     this.setState({
       date: new Date()
     });
+  }
+  deleteRow() {
+    console.log(123);
   }
   render() {
     return (
@@ -74,7 +132,7 @@ export default class Home extends Component {
                 <Breadcrumb separator="/">
                   <Breadcrumb.Item>首页</Breadcrumb.Item>
                   <Breadcrumb.Item>表单列表</Breadcrumb.Item>
-                  <Breadcrumb.Item>表单</Breadcrumb.Item>
+                  <Breadcrumb.Item>{this.state.form.name}</Breadcrumb.Item>
                 </Breadcrumb>
               </div>
               <div className="bodyContent-header-date">
@@ -91,7 +149,14 @@ export default class Home extends Component {
               </div>
             </div>
             <div className="bodyContent-body">
-
+              <Table
+                style={{ width: '100%' }}
+                columns={this.state.columns}
+                data={this.state.formDatas}
+                border={true}
+                height={700}
+                highlightCurrentRow={true}
+              />
             </div>
           </div>
         </div>
