@@ -21,14 +21,13 @@ export default class Home extends Component {
       formToken: '',
       form: {},
       formDatas: [],
-      columns: [{
-        type: 'index'
-      }],
+      columns: [],
+      choiceObj: {},
     };
   }
   async componentWillMount() {
     document.title = "表单后台";
-
+    const that = this;
     //发送请求
 
     //时间组件
@@ -52,48 +51,56 @@ export default class Home extends Component {
     const getFormPageData = await axios.post('/backstage/getFormPageData', {
       formToken: token
     });
+    this.setState({
+      form: getFormPageData.data.targetForm
+    })
     console.log(getFormPageData.data);
-    const newColumns = getFormPageData.data.columns;
+    const targetForm = getFormPageData.data.targetForm;
+    console.log(targetForm);
+    const newColumns = [{
+      type: 'index'
+    }];
+    targetForm.fields.map((field, index) => {
+      if (field.type === 'text') {
+        newColumns.push({
+          label: field.title,
+          prop: `${field.token}`
+        })
+      } else if (field.type === 'choice') {
+        const newChoiceObj = this.state.choiceObj;
+        //将choice的token和value全部存入this.state.choiceObj，key是token
+        field.choices.map((choice, index) => {
+          newChoiceObj[choice.token] = choice.value;
+        });
+        console.log(newChoiceObj);
+        this.setState({
+          choiceObj: newChoiceObj
+        }, () => {
+          newColumns.push({
+            label: field.title,
+            prop: `${field.token}`,
+            render: function (data) {
+              return (
+                <span>{that.state.choiceObj[data[field.token]]}</span>
+              )
+            }
+          })
+        });
+
+      }
+    })
     newColumns.push({
       label: "操作",
       render: (row, column, index) => {
         return <span><Button type="text" size="small" onClick={this.deleteRow.bind(this, index)}>移除</Button></span>
       }
     })
+    console.log(newColumns,getFormPageData.data.targetFormDatas);
     this.setState({
       columns: newColumns,
-      // formDatas: getFormPageData.data.formDatas
+      formDatas: getFormPageData.data.targetFormDatas
     })
-    // this.setState({
-    //   form: getFormPageData.data.targetForm,
-    //   formDatas: getFormPageData.data.targetFormDatas
-    // })
-
-    //重构formDatas
-
-    //build Table的column
-    // const formFields = getFormPageData.data.targetForm.fields;
-    // const newColumns = this.state.columns;
-    // console.log(formFields);
-    // formFields.map((field, index) => {
-    //   if (field.type === 'text') {
-    //     newColumns.push({
-    //       label: field.title,
-    //       prop: `${field.token}`,
-    //       width: 250,
-    //     })
-    //   } else if (field.type === 'choice') {
-    //     newColumns.push({
-    //       label: field.title,
-    //       prop: `${field.token}`,
-    //       width: 250,
-    //     })
-    //   }
-    // });
-    // console.log(newColumns);
-    // this.setState({
-    //   columns: newColumns
-    // })
+    console.log(this.state);
   }
   tick() {
     this.setState({
