@@ -9,7 +9,6 @@ import logoImg from '../../assets/img/logo-xp.png';
 import positionImg from '../../assets/img/position.png';
 
 import { Button, Menu, Breadcrumb, Icon, Tag, Table } from 'element-react';
-import { isThisWeek } from 'date-fns';
 
 
 export default class Home extends Component {

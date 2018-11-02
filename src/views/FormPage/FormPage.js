@@ -38,14 +38,15 @@ export default class Home extends Component {
 
     //获取formToken
     // console.log(this.props.location.query.formToken);
-    // this.setState({
-    //   formToken: this.props.location.query.formToken
-    // });
-    // const token = this.props.location.query.formToken;
-    const token = "OGd0EOjyTv";
+    const token = this.props.location.query.formToken;
     this.setState({
       formToken: token
     });
+    //临时测试用token
+    // const token = "OGd0EOjyTv";
+    // this.setState({
+    //   formToken: token
+    // });
 
     //获取目标表单数据，和表单提交的数据
     const getFormPageData = await axios.post('/backstage/getFormPageData', {
@@ -80,22 +81,34 @@ export default class Home extends Component {
             label: field.title,
             prop: `${field.token}`,
             render: function (data) {
-              return (
-                <span>{that.state.choiceObj[data[field.token]]}</span>
-              )
+              // console.log(that.state.choiceObj[data[field.token]]);
+              if (data[field.token] instanceof Array) {
+                const tokenArr = [];
+                data[field.token].map((item, index) => {
+                  tokenArr.push(that.state.choiceObj[item]);
+                })
+                return(
+                  <span>{tokenArr.join('、')}</span>
+                )
+              } else {
+                return (
+                  <span>{that.state.choiceObj[data[field.token]]}</span>
+                )
+              }
+
             }
           })
         });
 
       }
-    })
+    });
     newColumns.push({
       label: "操作",
       render: (row, column, index) => {
         return <span><Button type="text" size="small" onClick={this.deleteRow.bind(this, index)}>移除</Button></span>
       }
     })
-    console.log(newColumns,getFormPageData.data.targetFormDatas);
+    console.log(newColumns, getFormPageData.data.targetFormDatas);
     this.setState({
       columns: newColumns,
       formDatas: getFormPageData.data.targetFormDatas
