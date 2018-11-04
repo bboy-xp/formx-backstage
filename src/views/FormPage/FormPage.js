@@ -81,7 +81,6 @@ export default class Home extends Component {
             label: field.title,
             prop: `${field.token}`,
             render: function (data) {
-              // console.log(that.state.choiceObj[data[field.token]]);
               if (data[field.token] instanceof Array) {
                 const tokenArr = [];
                 data[field.token].map((item, index) => {
