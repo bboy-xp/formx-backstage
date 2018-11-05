@@ -9,8 +9,6 @@ import logoImg from '../../assets/img/logo-xp.png';
 import positionImg from '../../assets/img/position.png';
 
 import { Button, Menu, Breadcrumb, Table } from 'element-react';
-import { isThisWeek } from 'date-fns';
-
 
 export default class Home extends Component {
 
@@ -28,7 +26,6 @@ export default class Home extends Component {
   async componentWillMount() {
     document.title = "表单后台";
     const that = this;
-    //发送请求
 
     //时间组件
     setInterval(
@@ -37,11 +34,24 @@ export default class Home extends Component {
     );
 
     //获取formToken
-    // console.log(this.props.location.query.formToken);
-    const token = this.props.location.query.formToken;
-    this.setState({
-      formToken: token
-    });
+    //判断query中是否有formToken，如果没有从localStorage中获取，如果有直接赋值
+    let token;
+    if(!!this.props.location.query) {
+      console.log('query中有值');
+      token = this.props.location.query.formToken;
+      //存入localStorage
+      localStorage.setItem('formToken', token);
+      this.setState({
+        formToken: token
+      });
+    }else {
+      console.log('query中没有值');
+      token = localStorage.getItem('formToken');
+      this.setState({
+        formToken: token
+      });
+    }
+    
     //临时测试用token
     // const token = "OGd0EOjyTv";
     // this.setState({
@@ -55,12 +65,11 @@ export default class Home extends Component {
     this.setState({
       form: getFormPageData.data.targetForm
     })
-    console.log(getFormPageData.data);
     const targetForm = getFormPageData.data.targetForm;
-    console.log(targetForm);
     const newColumns = [{
       type: 'index'
     }];
+    // 循环fields，并重构复制到newColumns中
     targetForm.fields.map((field, index) => {
       if (field.type === 'text') {
         newColumns.push({
@@ -74,13 +83,16 @@ export default class Home extends Component {
           newChoiceObj[choice.token] = choice.value;
         });
         console.log(newChoiceObj);
+        //用回调保证setState是同步的
         this.setState({
           choiceObj: newChoiceObj
         }, () => {
+          //在columns中添加type为choice的field渲染方式
           newColumns.push({
             label: field.title,
             prop: `${field.token}`,
             render: function (data) {
+              //判断是单选还是多选，根据情况渲染data
               if (data[field.token] instanceof Array) {
                 const tokenArr = [];
                 data[field.token].map((item, index) => {
@@ -101,6 +113,7 @@ export default class Home extends Component {
 
       }
     });
+    //在columns中添加操作栏
     newColumns.push({
       label: "操作",
       render: (row, column, index) => {
