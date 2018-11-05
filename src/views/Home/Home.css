@@ -35,14 +35,21 @@
   /* justify-content: center; */
   align-items: center;
 }
-.header-nav-icon {
+.header-nav-icon:hover {
   height: 33px;
   width: 33px;
+  filter: invert(30%);
 }
 .quit-icon {
   height: 26px;
   width: 26px;
   margin-top: 4px;
+}
+.quit-icon:hover {
+  height: 26px;
+  width: 26px;
+  margin-top: 4px;
+  filter: invert(30%);
 }
 .header-nav-user-text {
   font-size: 0.7vw;
@@ -98,4 +105,6 @@
   flex: 1;
   padding: 30px 30px 50px 30px;
 }
-
+.linkText {
+  color: #1d8ce0;
+}

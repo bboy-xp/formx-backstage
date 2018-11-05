@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link} from "react-router-dom";
 import './FormPage.css';
 import axios from 'axios';
 
@@ -135,6 +136,10 @@ export default class Home extends Component {
   deleteRow() {
     console.log(123);
   }
+  handelClickGotoHome = () => {
+    console.log(12312432);
+    // this.props.router.push('/');
+  }
   render() {
     return (
       <div className="homeContainer">
@@ -146,14 +151,14 @@ export default class Home extends Component {
             <span className="header-nav-user-text">用户：admin</span>
           </div>
           <div className="header-nav">
-            <img className="header-nav-icon quit-icon" src={quitImg} alt="404" />
+            <img className="quit-icon" src={quitImg} alt="404" />
             <span className="header-nav-quit-text">退出</span>
           </div>
         </div>
         <div className="content">
           <div className="navContent">
             <Menu defaultActive="1" theme="dark" className="el-menu-vertical-demo" >
-              <Menu.Item index="1"><i className="el-icon-document"></i>表单列表</Menu.Item>
+              <Menu.Item index="1"><i className="el-icon-document"></i><Link className="linkText" to="/">表单列表</Link></Menu.Item>
             </Menu>
           </div>
           <div className="bodyContent">

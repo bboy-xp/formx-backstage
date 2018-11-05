@@ -6,7 +6,7 @@
 }
 .header {
   flex-basis: 7%;
-  background-color: #08a2ba;
+  background-color: #03597a;
   display: flex;
 }
 .content {
@@ -39,11 +39,23 @@
   height: 33px;
   width: 33px;
 }
+.header-nav-icon:hover {
+  height: 33px;
+  width: 33px;
+  filter: invert(30%);
+}
 .quit-icon {
   height: 26px;
   width: 26px;
   margin-top: 4px;
 }
+.quit-icon:hover {
+  height: 26px;
+  width: 26px;
+  margin-top: 4px;
+  filter: invert(30%);
+}
+
 .header-nav-user-text {
   font-size: 0.7vw;
   color: #fff;
@@ -56,7 +68,7 @@
 .header-logo {
   height: 50px;
   width: 60px;
-  margin: 12px 20px 0 30px;;
+  margin: 10px 20px 0 30px;;
 }
 
 .bodyContent {
@@ -97,5 +109,8 @@
 .bodyContent-body {
   flex: 1;
   padding: 30px 30px 50px 30px;
+}
+.linkText {
+  color: #1d8ce0;
 }
 

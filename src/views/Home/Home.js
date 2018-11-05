@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link} from "react-router-dom";
 import './Home.css';
 import axios from 'axios';
 
@@ -99,14 +100,14 @@ export default class Home extends Component {
             <span className="header-nav-user-text">用户：admin</span>
           </div>
           <div className="header-nav">
-            <img className="header-nav-icon quit-icon" src={quitImg} alt="404" />
+            <img className="quit-icon" src={quitImg} alt="404" />
             <span className="header-nav-quit-text">退出</span>
           </div>
         </div>
         <div className="content">
           <div className="navContent">
             <Menu defaultActive="1" theme="dark" className="el-menu-vertical-demo" >
-              <Menu.Item index="1"><i className="el-icon-document"></i>表单列表</Menu.Item>
+              <Menu.Item index="1"><i className="el-icon-document"></i ><span className="linkText">表单列表</span></Menu.Item>
             </Menu>
           </div>
           <div className="bodyContent">
