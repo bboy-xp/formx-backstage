@@ -1,0 +1,57 @@
+.LoginContainer {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("../../../assets/img/bg.jpg");
+  background-size: cover;
+  position: relative;
+  box-sizing:border-box;
+  padding: 1px;
+}
+.LoginContainer:after{
+  content: "";
+  width:100%;
+  height:100%;
+  position: absolute;
+  left:0;
+  top:0;
+  background: inherit;
+  background-size: cover;
+  filter: blur(3px);
+  z-index: 1;
+}
+.loginBox {
+  position: absolute;
+  left:40%;
+  top:30%;
+  width:280px;
+  height:350px;
+  text-align: center;
+  /* background: inherit; */
+  background-color: rgba(255, 255, 255, 0.877);
+  border-radius: 6px;
+  z-index:11;
+  box-shadow:  0 0 10px 6px rgba(255, 255, 255, 0.466);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.logoImg {
+  height: 50px;
+  width: 60px;
+  margin-top: 20px;
+}
+.headerText {
+  font-size: 25px;
+  margin-top: 10px;
+  font-family: 'pingfang';
+  color: rgb(7, 81, 124)
+}
+.inputContent {
+  margin-top: 25px;
+  margin-left: 22px
+}
+.submitBtn {
+  width: 83%;
+  position: relative;
+  top: 20px;
+}

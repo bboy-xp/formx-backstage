@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import Home from './views/Home/Home';
 import FormPage from './views/FormPage/FormPage';
+import Login from './views/Admin/Login/Login';
 
 import './App.css';
 //引入element-react
@@ -15,7 +16,8 @@ class App extends Component {
       <BrowserRouter>
           <div>
           <Route exact path="/" component={Home} />
-          <Route exact path="/formPage" component={FormPage} />
+          <Route path="/formPage" component={FormPage} />
+          <Route path="/admin/login" component={Login} />
           </div>
         </BrowserRouter>
     );
