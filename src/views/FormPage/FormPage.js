@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import './FormPage.css';
 import axios from 'axios';
 
@@ -10,6 +10,10 @@ import logoImg from '../../assets/img/logo-xp.png';
 import positionImg from '../../assets/img/position.png';
 
 import { Button, Menu, Breadcrumb, Table } from 'element-react';
+
+//引入包装好的逻辑
+import util from '../../lib/util';
+const { checkLogin } = util;
 
 export default class Home extends Component {
 
@@ -26,6 +30,10 @@ export default class Home extends Component {
   }
   async componentWillMount() {
     document.title = "表单后台";
+    //判断是否登录
+    checkLogin();
+
+
     const that = this;
 
     //时间组件
@@ -37,7 +45,7 @@ export default class Home extends Component {
     //获取formToken
     //判断query中是否有formToken，如果没有从localStorage中获取，如果有直接赋值
     let token;
-    if(!!this.props.location.query) {
+    if (!!this.props.location.query) {
       console.log('query中有值');
       token = this.props.location.query.formToken;
       //存入localStorage
@@ -45,14 +53,14 @@ export default class Home extends Component {
       this.setState({
         formToken: token
       });
-    }else {
+    } else {
       console.log('query中没有值');
       token = localStorage.getItem('formToken');
       this.setState({
         formToken: token
       });
     }
-    
+
     //临时测试用token
     // const token = "OGd0EOjyTv";
     // this.setState({
@@ -99,7 +107,7 @@ export default class Home extends Component {
                 data[field.token].map((item, index) => {
                   tokenArr.push(that.state.choiceObj[item]);
                 })
-                return(
+                return (
                   <span>{tokenArr.join('、')}</span>
                 )
               } else {

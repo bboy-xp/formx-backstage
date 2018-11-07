@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import './Home.css';
 import axios from 'axios';
 
@@ -9,14 +9,18 @@ import quitImg from '../../assets/img/quit.png';
 import logoImg from '../../assets/img/logo-xp.png';
 import positionImg from '../../assets/img/position.png';
 
-import { Button, Menu, Breadcrumb, Icon, Tag, Table } from 'element-react';
+import { Button, Menu, Breadcrumb, Icon, Tag, Table, MessageBox, Message  } from 'element-react';
 
+//引入包装好的逻辑
+import util from '../../lib/util';
+const { checkLogin } = util;
 
 export default class Home extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      admin: '',
       date: new Date(),
       allForms: [],
       columns: [
@@ -60,8 +64,13 @@ export default class Home extends Component {
   }
   async componentWillMount() {
     document.title = "首页";
+    //判断是否登录
+    checkLogin();
+    //从localStorage中获取admin
+    const account = localStorage.getItem('admin');
     const forms = await axios.get('/backstage/getForms');
     this.setState({
+      admin: account,
       allForms: forms.data
     })
     console.log(forms.data);
@@ -69,7 +78,7 @@ export default class Home extends Component {
     //时间组件
     setInterval(
       () => this.tick(),
-      60000
+      300
     );
   }
   tick() {
@@ -77,7 +86,7 @@ export default class Home extends Component {
       date: new Date()
     });
   }
-  
+
   test(row) {
     console.log(row);
     const queryData = {
@@ -88,6 +97,23 @@ export default class Home extends Component {
       query: queryData
     })
   }
+  handelQuit = () => {
+    
+    MessageBox.confirm('此操作将退出系统, 是否继续?', '提示', {
+      type: 'warning'
+    }).then(() => {
+      localStorage.admin = '';
+      this.props.history.push({
+        pathname: '/admin/login',
+      })
+    }).catch(() => {
+      Message({
+        type: 'info',
+        message: '已取消退出'
+      });
+    });
+    
+  }
 
   render() {
     return (
@@ -97,9 +123,9 @@ export default class Home extends Component {
           <div className="logoText">XP后台管理系统</div>
           <div className="header-nav">
             <img className="header-nav-icon" src={userImg} alt="404" />
-            <span className="header-nav-user-text">用户：admin</span>
+            <span className="header-nav-user-text">用户：{this.state.admin}</span>
           </div>
-          <div className="header-nav">
+          <div className="header-nav" onClick={this.handelQuit}>
             <img className="quit-icon" src={quitImg} alt="404" />
             <span className="header-nav-quit-text">退出</span>
           </div>

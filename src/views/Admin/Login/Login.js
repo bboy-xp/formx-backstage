@@ -76,6 +76,7 @@ export default class Home extends Component {
           message: '登录成功',
           type: 'success'
         });
+        localStorage.setItem("admin", this.state.account);
         window.location.href = "/";
       }
     }
