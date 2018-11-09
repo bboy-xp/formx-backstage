@@ -1,12 +1,13 @@
 .homeContainer {
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 .header {
   flex-basis: 7%;
-  background-color: #03597a;
+  background-color: #042750;
   display: flex;
 }
 .content {
@@ -18,6 +19,39 @@
   flex-basis: 12%;
   height: 100%;
   background-color: rgb(40, 52, 64);
+}
+.nav {
+  flex: 1;
+}
+.nav-ad {
+  height: 20px;
+  border-top: 1px solid rgb(0, 80, 126);
+  background-color: #042750;
+  padding: 4px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-family: 'pingfang';
+  color: #6a737d;
+}
+.ad-text {
+  display: flex;
+  align-items: center;
+  color: #6a737d;
+}
+.ad-text:hover {
+  color: rgb(3, 102, 214);
+  text-decoration: none;
+}
+.ad-img-heart {
+  height: 15px;
+  width: 14px;
+  margin-right: 5px;
+}
+.ad-divide {
+  font-weight: bold;
+  margin: 3px 6px 0 6px;
 }
 .logoText {
   line-height: 7vh;
@@ -66,16 +100,15 @@
   color: #fff;
 }
 .header-logo {
-  height: 50px;
-  width: 60px;
-  margin: 10px 20px 0 30px;;
+  height: 40px;
+  width: 40px;
+  margin: 14px 20px 0 30px;
 }
 
 .bodyContent {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%
+  flex: 1;
 }
 .bodyContent-header {
   flex-basis: 4%;
@@ -113,4 +146,6 @@
 .linkText {
   color: #1d8ce0;
 }
-
+.block {
+  padding: 30px 0 0 20px;
+}

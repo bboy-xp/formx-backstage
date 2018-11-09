@@ -8,8 +8,10 @@ import userImg from '../../assets/img/user.png';
 import quitImg from '../../assets/img/quit.png';
 import logoImg from '../../assets/img/logo-xp.png';
 import positionImg from '../../assets/img/position.png';
+import heartImg from '../../assets/img/heart.png';
+import githubImg from '../../assets/img/github.png';
 
-import { Button, Menu, Breadcrumb, Icon, Tag, Table, MessageBox, Message  } from 'element-react';
+import { Button, Menu, Breadcrumb, Icon, Tag, Table, MessageBox, Message, Pagination } from 'element-react';
 
 //引入包装好的逻辑
 import util from '../../lib/util';
@@ -23,6 +25,8 @@ export default class Home extends Component {
       admin: '',
       date: new Date(),
       allForms: [],
+      pageSize: 16,
+      currentPage: 1,
       columns: [
         {
           type: 'index'
@@ -132,9 +136,14 @@ export default class Home extends Component {
         </div>
         <div className="content">
           <div className="navContent">
-            <Menu defaultActive="1" theme="dark" className="el-menu-vertical-demo" >
+            <Menu defaultActive="1" theme="dark" className="el-menu-vertical-demo nav" >
               <Menu.Item index="1"><i className="el-icon-document"></i ><span className="linkText">表单列表</span></Menu.Item>
             </Menu>
+            <div className="nav-ad">
+              <a href='#' className="ad-text"><img className="ad-img-heart" src={heartImg} alt=""/>Support me</a>
+              <span className="ad-divide">·</span>
+              <a href='https://github.com/bboy-xp/formx-backstage' className="ad-text"><img className="ad-img-heart" src={githubImg} alt=""/>Feedback?</a>
+            </div>
           </div>
           <div className="bodyContent">
             <div className="bodyContent-header">
@@ -167,7 +176,11 @@ export default class Home extends Component {
                 border={true}
                 height={700}
                 highlightCurrentRow={true}
+                stripe={true}
               />
+              <div className="block">
+                <Pagination layout="prev, pager, next, jumper" total={this.state.allForms.length} pageSize={this.state.pageSize} currentPage={this.state.currentPage} onCurrentChange={this.CurrentPageChange} />
+              </div>
             </div>
           </div>
         </div>

@@ -17,6 +17,36 @@ export default class Home extends Component {
       password: ''
     };
   }
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleEnterKey);
+  }
+  componentWillUmount() {
+    document.removeEventListener("keydown", this.handleEenterKey);
+  }
+  handleEnterKey = async (e) => {
+    if (e.keyCode === 13) {
+      console.log('enter');
+      //回车事件
+      await this.submit();
+    }if(e.keyCode === 192) {
+      console.log('login');
+      const reqData = {
+        account: 'admin',
+        password: '123456'
+      };
+      const loginRes = await axios.post('/backstage/login', reqData);
+      if(loginRes.data.message === 'ok') {
+        Notification({
+          title: '成功',
+          message: '登录成功',
+          type: 'success'
+        });
+        localStorage.setItem("admin", 'admin');
+        window.location.href = "/";
+      }
+    }
+  }
   async componentWillMount() {
     document.title = "登录";
 
@@ -51,7 +81,7 @@ export default class Home extends Component {
       }
       const loginRes = await axios.post('/backstage/login', reqData);
       console.log(loginRes.data);
-      if(loginRes.data.message === 'accounts not exist') {
+      if (loginRes.data.message === 'accounts not exist') {
         Notification({
           title: '警告',
           message: ' 账户不存在',
@@ -61,7 +91,7 @@ export default class Home extends Component {
           account: '',
           password: ''
         })
-      }else if(loginRes.data.message === 'password error') {
+      } else if (loginRes.data.message === 'password error') {
         Notification({
           title: '警告',
           message: ' 密码错误',
@@ -70,7 +100,7 @@ export default class Home extends Component {
         this.setState({
           password: ''
         })
-      }else {
+      } else {
         Notification({
           title: '成功',
           message: '登录成功',
