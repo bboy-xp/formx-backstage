@@ -25,11 +25,13 @@ export default class Home extends Component {
       date: new Date(),
       formToken: '',
       form: {},
+      formName: '',
       formDatas: [],
       columns: [],
       choiceObj: {},
-      pageSize: 16,
+      pageSize: 15,
       currentPage: 1,
+      targetFormDatasLength: 0
     };
   }
   async componentWillMount() {
@@ -76,18 +78,20 @@ export default class Home extends Component {
       formToken: token
     });
     this.setState({
-      form: getFormPageData.data.targetForm
+      form: getFormPageData.data.targetForm,
+      formName: getFormPageData.data.targetFormName,
+      targetFormDatasLength: getFormPageData.data.targetFormDatasLength
     })
     const targetForm = getFormPageData.data.targetForm;
     const newColumns = [{
-      type: 'index'
+      type: 'index',
     }];
     // 循环fields，并重构复制到newColumns中
     targetForm.fields.map((field, index) => {
       if (field.type === 'text') {
         newColumns.push({
           label: field.title,
-          prop: `${field.token}`
+          prop: `${field.token}`,
         })
       } else if (field.type === 'choice') {
         const newChoiceObj = this.state.choiceObj;
@@ -152,9 +156,19 @@ export default class Home extends Component {
     console.log(12312432);
     // this.props.router.push('/');
   }
-  CurrentPageChange = (e) => {
+  CurrentPageChange = async (e) => {
     console.log(e);
     //参数即是页码
+    const reqData = {
+      currentPage: e,
+      pageSize: this.state.pageSize,
+      formToken: this.state.formToken
+    }
+    const getCurrentPageData = await axios.post('/backstage/getCurrentPageData',reqData);
+    console.log(getCurrentPageData);
+    this.setState({
+      formDatas: getCurrentPageData.data.formDatas
+    })
 
   }
   render() {
@@ -178,9 +192,9 @@ export default class Home extends Component {
               <Menu.Item index="1"><i className="el-icon-document"></i><Link className="linkText" to="/">表单列表</Link></Menu.Item>
             </Menu>
             <div className="nav-ad">
-              <a href='#' className="ad-text"><img className="ad-img-heart" src={heartImg} alt=""/>Support me</a>
+              <a href='#' className="ad-text"><img className="ad-img-heart" src={heartImg} alt="" />Support me</a>
               <span className="ad-divide">·</span>
-              <a href='https://github.com/bboy-xp/formx-backstage' className="ad-text"><img className="ad-img-heart" src={githubImg} alt=""/>Feedback?</a>
+              <a href='https://github.com/bboy-xp/formx-backstage' className="ad-text"><img className="ad-img-heart" src={githubImg} alt="" />Feedback?</a>
             </div>
           </div>
           <div className="bodyContent">
@@ -191,7 +205,7 @@ export default class Home extends Component {
                 <Breadcrumb separator="/">
                   <Breadcrumb.Item>首页</Breadcrumb.Item>
                   <Breadcrumb.Item>表单列表</Breadcrumb.Item>
-                  <Breadcrumb.Item>{this.state.form.name}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{this.state.formName}</Breadcrumb.Item>
                 </Breadcrumb>
               </div>
               <div className="bodyContent-header-date">
@@ -218,7 +232,8 @@ export default class Home extends Component {
                 stripe={true}
               />
               <div className="block">
-                <Pagination layout="prev, pager, next, jumper" total={this.state.formDatas.length} pageSize={this.state.pageSize} currentPage={this.state.currentPage} onCurrentChange={this.CurrentPageChange} />
+              <Pagination layout="prev, pager, next, jumper" total={this.state.targetFormDatasLength} pageSize={this.state.pageSize} currentPage={this.state.currentPage} onCurrentChange={this.CurrentPageChange} />
+              {/* <Pagination layout="prev, pager, next, jumper" total={100} pageSize={15} currentPage={this.state.currentPage} onCurrentChange={this.CurrentPageChange} /> */}
               </div>
             </div>
           </div>
