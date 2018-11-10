@@ -29,7 +29,7 @@ export default class Home extends Component {
       formDatas: [],
       columns: [],
       choiceObj: {},
-      pageSize: 15,
+      pageSize: 16,
       currentPage: 1,
       targetFormDatasLength: 0
     };
@@ -149,8 +149,8 @@ export default class Home extends Component {
       date: new Date()
     });
   }
-  deleteRow() {
-    console.log(123);
+  deleteRow(e) {
+    console.log(e);
   }
   handelClickGotoHome = () => {
     console.log(12312432);
@@ -164,7 +164,7 @@ export default class Home extends Component {
       pageSize: this.state.pageSize,
       formToken: this.state.formToken
     }
-    const getCurrentPageData = await axios.post('/backstage/getCurrentPageData',reqData);
+    const getCurrentPageData = await axios.post('/backstage/getCurrentPageData', reqData);
     console.log(getCurrentPageData);
     this.setState({
       formDatas: getCurrentPageData.data.formDatas
@@ -190,6 +190,7 @@ export default class Home extends Component {
           <div className="navContent">
             <Menu defaultActive="1" theme="dark" className="el-menu-vertical-demo nav" >
               <Menu.Item index="1"><i className="el-icon-document"></i><Link className="linkText" to="/">表单列表</Link></Menu.Item>
+              <Menu.Item index="2"><i className="el-icon-document"></i><Link className="linkText" to="/showData">数据预览</Link></Menu.Item>
             </Menu>
             <div className="nav-ad">
               <a href='#' className="ad-text"><img className="ad-img-heart" src={heartImg} alt="" />Support me</a>
@@ -227,13 +228,12 @@ export default class Home extends Component {
                 columns={this.state.columns}
                 data={this.state.formDatas}
                 border={true}
-                height={700}
+                height={681}
                 highlightCurrentRow={true}
                 stripe={true}
               />
               <div className="block">
-              <Pagination layout="prev, pager, next, jumper" total={this.state.targetFormDatasLength} pageSize={this.state.pageSize} currentPage={this.state.currentPage} onCurrentChange={this.CurrentPageChange} />
-              {/* <Pagination layout="prev, pager, next, jumper" total={100} pageSize={15} currentPage={this.state.currentPage} onCurrentChange={this.CurrentPageChange} /> */}
+                <Pagination layout="prev, pager, next, jumper" total={this.state.targetFormDatasLength} pageSize={this.state.pageSize} currentPage={this.state.currentPage} onCurrentChange={this.CurrentPageChange} />
               </div>
             </div>
           </div>
