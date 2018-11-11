@@ -10,6 +10,7 @@ import logoImg from '../../assets/img/logo-xp.png';
 import positionImg from '../../assets/img/position.png';
 import heartImg from '../../assets/img/heart.png';
 import githubImg from '../../assets/img/github.png';
+import headImg from '../../assets/img/head.jpg';
 
 import { Button, Menu, Breadcrumb } from 'element-react';
 
@@ -29,7 +30,11 @@ export default class Home extends Component {
     document.title = "表单后台";
     //判断是否登录
     checkLogin();
-
+    //从localStorage中获取admin
+    const account = localStorage.getItem('admin');
+    this.setState({
+      admin: account,
+    });
     // db.formdatas.find({"createdAt" :  {"$gte" : ISODate("2018-11-09")}}).count()
 
     //时间组件
@@ -50,16 +55,18 @@ export default class Home extends Component {
           <img className="header-logo" src={logoImg} alt="404" />
           <div className="logoText">XP后台管理系统</div>
           <div className="header-nav">
-            <img className="header-nav-icon" src={userImg} alt="404" />
-            <span className="header-nav-user-text">用户：admin</span>
-          </div>
-          <div className="header-nav">
             <img className="quit-icon" src={quitImg} alt="404" />
             <span className="header-nav-quit-text">退出</span>
           </div>
         </div>
         <div className="content">
+
           <div className="navContent">
+            <div className="user-msg">
+              <img className="headImg" src={headImg} alt="404" />
+              <div className="user-msg-text">欢迎您</div>
+              <div className="user-msg-text">{this.state.admin}</div>
+            </div>
             <Menu defaultActive="1" theme="dark" className="el-menu-vertical-demo nav" >
               <Menu.Item index="1"><i className="el-icon-document"></i><Link className="linkText" to="/">表单列表</Link></Menu.Item>
               <Menu.Item index="2"><i className="el-icon-document"></i><Link className="linkText" to="/">数据预览</Link></Menu.Item>

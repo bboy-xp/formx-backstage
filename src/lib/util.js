@@ -4,7 +4,13 @@ function checkLogin() {
     window.location.href = '/admin/login';
   }
 }
+function gotoSetting(props) {
+  props.history.push({
+    pathname: '/admin/setting',
+  })
+}
 
 export default {
-  checkLogin
+  checkLogin,
+  gotoSetting
 };

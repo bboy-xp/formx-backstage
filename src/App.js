@@ -4,6 +4,7 @@ import Home from './views/Home/Home';
 import FormPage from './views/FormPage/FormPage';
 import Login from './views/Admin/Login/Login';
 import ShowData from './views/ShowData/ShowData';
+import Setting from './views/Admin/Setting/Setting';
 
 
 import './App.css';
@@ -21,6 +22,7 @@ class App extends Component {
           <Route path="/formPage" component={FormPage} />
           <Route path="/showData" component={ShowData} />
           <Route path="/admin/login" component={Login} />
+          <Route path="/admin/setting" component={Setting} />
           </div>
         </BrowserRouter>
     );
