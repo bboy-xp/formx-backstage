@@ -9,8 +9,20 @@ function gotoSetting(props) {
     pathname: '/admin/setting',
   })
 }
+function gotoHome(props) {
+  props.history.push({
+    pathname: '/',
+  })
+}
+function gotoShowData(props) {
+  props.history.push({
+    pathname: '/showData',
+  })
+}
 
 export default {
   checkLogin,
-  gotoSetting
+  gotoSetting,
+  gotoHome,
+  gotoShowData
 };

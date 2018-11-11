@@ -16,7 +16,7 @@ import { Button, Menu, Breadcrumb, Table, Pagination } from 'element-react';
 
 //引入包装好的逻辑
 import util from '../../lib/util';
-const { checkLogin } = util;
+const { checkLogin, gotoHome, gotoShowData } = util;
 
 export default class Home extends Component {
 
@@ -161,6 +161,10 @@ export default class Home extends Component {
   handelClickGotoHome = () => {
     console.log(12312432);
     // this.props.router.push('/');
+    gotoHome(this.props);
+  }
+  handelClickGotoShowData = () => {
+    gotoShowData(this.props);
   }
   CurrentPageChange = async (e) => {
     console.log(e);
@@ -197,8 +201,8 @@ export default class Home extends Component {
               <div className="user-msg-text">{this.state.admin}</div>
             </div>
             <Menu defaultActive="1" theme="dark" className="el-menu-vertical-demo nav" >
-              <Menu.Item index="1"><i className="el-icon-document"></i><Link className="linkText" to="/">表单列表</Link></Menu.Item>
-              <Menu.Item index="2"><i className="el-icon-document"></i><Link className="linkText" to="/showData">数据预览</Link></Menu.Item>
+              <Menu.Item index="1"><i className="el-icon-document"></i><span className="linkText" onClick={this.handelClickGotoHome}>表单列表</span></Menu.Item>
+              <Menu.Item index="2"><i className="el-icon-document"></i><span className="linkText" onClick={this.handelClickGotoShowData}>数据预览</span></Menu.Item>
             </Menu>
             <div className="nav-ad">
               <a href='#' className="ad-text"><img className="ad-img-heart" src={heartImg} alt="" />Support me</a>
