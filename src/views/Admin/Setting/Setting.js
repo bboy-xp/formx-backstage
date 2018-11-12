@@ -12,7 +12,7 @@ import heartImg from '../../../assets/img/heart.png';
 import githubImg from '../../../assets/img/github.png';
 import headImg from '../../../assets/img/head.jpg';
 
-import { Button, Menu, Breadcrumb, Icon, Tag, Table, MessageBox, Message, Pagination } from 'element-react';
+import { Input, Button, Menu, Icon, MessageBox, Message, Upload, Breadcrumb } from 'element-react';
 
 //引入包装好的逻辑
 import util from '../../../lib/util';
@@ -25,6 +25,9 @@ export default class Home extends Component {
     this.state = {
       admin: '',
       date: new Date(),
+      imageUrl: '',
+      postData: {},
+
     };
   }
   async componentWillMount() {
@@ -42,6 +45,15 @@ export default class Home extends Component {
       () => this.tick(),
       300
     );
+
+    //获取上传图片的upToken
+    const getUpToken = await axios.get("/backstage/getUpToken");
+    console.log(getUpToken.data);
+    this.setState({
+      postData: {
+        token: getUpToken.data
+      }
+    })
   }
   tick() {
     this.setState({
@@ -51,7 +63,6 @@ export default class Home extends Component {
 
 
   handelQuit = () => {
-
     MessageBox.confirm('此操作将退出系统, 是否继续?', '提示', {
       type: 'warning'
     }).then(() => {
@@ -65,7 +76,26 @@ export default class Home extends Component {
         message: '已取消退出'
       });
     });
+  }
+  handleAvatarScucess(res, file) {
+    const newImageUrl = 'http://pdjslih4r.bkt.clouddn.com/' + res.key;
+    console.log(newImageUrl);
+    this.setState({ imageUrl: newImageUrl });
+  }
+  beforeAvatarUpload(file) {
+    console.log(file.type);
+    const isJPG = file.type === 'image/jpeg';
+    const isPNG = file.type === 'image/png';
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    const isJPGAndPNG = isJPG || isPNG;
 
+    if (!isJPGAndPNG) {
+      Message('上传头像图片只能是 JPG/PNG 格式!');
+    }
+    if (!isLt2M) {
+      Message('上传头像图片大小不能超过 2MB!');
+    }
+    return isJPGAndPNG && isLt2M;
   }
 
   render() {
@@ -103,7 +133,7 @@ export default class Home extends Component {
               <div className="bodyContent-header-Breadcrumb">
                 <Breadcrumb separator="/">
                   <Breadcrumb.Item>首页</Breadcrumb.Item>
-                  <Breadcrumb.Item>表单列表</Breadcrumb.Item>
+                  <Breadcrumb.Item>个人中心</Breadcrumb.Item>
                 </Breadcrumb>
               </div>
               <div className="bodyContent-header-date">
@@ -121,6 +151,28 @@ export default class Home extends Component {
             </div>
             <div className="bodyContent-body">
 
+              <div className="admin-msg">
+                <div className="headImgContent">
+                  <div>头像</div>
+                  <Upload
+                className="avatar-uploader"
+                action="https://upload-z1.qiniup.com"
+                showFileList={true}
+                onSuccess={(res, file) => this.handleAvatarScucess(res, file)}
+                beforeUpload={file => this.beforeAvatarUpload(file)}
+                data={this.state.postData}
+              >
+                {this.state.imageUrl ? <img src={this.state.imageUrl} className="avatar" /> : <i className="el-icon-plus avatar-uploader-icon"></i>}
+              </Upload>
+                </div>
+                <div className="accountContent">
+                  <div>用户名</div>
+                  <Input placeholder="请输入内容" />
+                </div>
+                <div className="passwordContent"></div>
+                <div className="positionContent"></div>
+                <div className="describeContent"></div>
+              </div>
             </div>
           </div>
         </div>

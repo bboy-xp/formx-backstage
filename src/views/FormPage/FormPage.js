@@ -164,7 +164,7 @@ export default class Home extends Component {
     gotoHome(this.props);
   }
   handelClickGotoShowData = () => {
-    gotoShowData(this.props);
+    gotoShowData(this.props, this.state.formToken);
   }
   CurrentPageChange = async (e) => {
     console.log(e);
@@ -201,8 +201,9 @@ export default class Home extends Component {
               <div className="user-msg-text">{this.state.admin}</div>
             </div>
             <Menu defaultActive="1" theme="dark" className="el-menu-vertical-demo nav" >
-              <Menu.Item index="1"><i className="el-icon-document"></i><span className="linkText" onClick={this.handelClickGotoHome}>表单列表</span></Menu.Item>
-              <Menu.Item index="2"><i className="el-icon-document"></i><span className="linkText" onClick={this.handelClickGotoShowData}>数据预览</span></Menu.Item>
+              <Menu.SubMenu index="1" title={<span className="linkText" onClick={this.handelClickGotoHome}><i className="el-icon-document"></i>表单列表</span>}>
+                <Menu.Item index="1-1"><span className="linkText" onClick={this.handelClickGotoShowData}>数据预览</span></Menu.Item>
+              </Menu.SubMenu>
             </Menu>
             <div className="nav-ad">
               <a href='#' className="ad-text"><img className="ad-img-heart" src={heartImg} alt="" />Support me</a>

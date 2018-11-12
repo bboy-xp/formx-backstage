@@ -14,9 +14,13 @@ function gotoHome(props) {
     pathname: '/',
   })
 }
-function gotoShowData(props) {
+function gotoShowData(props, formToken) {
+  const queryData = {
+    formToken: formToken
+  }
   props.history.push({
     pathname: '/showData',
+    query: queryData
   })
 }
 

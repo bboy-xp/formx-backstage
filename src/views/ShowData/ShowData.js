@@ -35,6 +35,25 @@ export default class Home extends Component {
     this.setState({
       admin: account,
     });
+    //获取formToken
+    //判断query中是否有formToken，如果没有从localStorage中获取，如果有直接赋值
+    let token;
+    if (!!this.props.location.query) {
+      console.log('query中有值');
+      token = this.props.location.query.formToken;
+      console.log(token);
+      //存入localStorage
+      localStorage.setItem('formToken', token);
+      this.setState({
+        formToken: token
+      });
+    } else {
+      console.log('query中没有值');
+      token = localStorage.getItem('formToken');
+      this.setState({
+        formToken: token
+      });
+    }
     // db.formdatas.find({"createdAt" :  {"$gte" : ISODate("2018-11-09")}}).count()
 
     //时间组件
@@ -75,11 +94,9 @@ export default class Home extends Component {
               <div className="user-msg-text">欢迎您</div>
               <div className="user-msg-text">{this.state.admin}</div>
             </div>
-            <Menu defaultActive="2" theme="dark" className="el-menu-vertical-demo nav" >
-              <Menu.Item index="1"><i className="el-icon-document"></i><span className="linkText" onClick={this.handelClickGotoHome}>表单列表</span></Menu.Item>
-              <Menu.Item index="2"><i className="el-icon-document"></i><span className="linkText" onClick={this.handelClickGotoShowData}>数据预览</span></Menu.Item>
-              <Menu.SubMenu index="3" title={<span className="linkText" onClick={this.handelClickGotoHome}><i className="el-icon-document"></i>表单列表</span>}>
-                <Menu.Item index="3-1"><span className="linkText" onClick={this.handelClickGotoShowData}>数据预览</span></Menu.Item>
+            <Menu defaultActive="1" theme="dark" className="el-menu-vertical-demo nav" >
+              <Menu.SubMenu index="1" title={<span className="linkText" onClick={this.handelClickGotoHome}><i className="el-icon-document"></i>表单列表</span>}>
+                <Menu.Item index="1-1"><span className="linkText" onClick={this.handelClickGotoShowData}>数据预览</span></Menu.Item>
               </Menu.SubMenu>
             </Menu>
             <div className="nav-ad">
