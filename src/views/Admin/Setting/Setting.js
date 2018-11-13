@@ -12,7 +12,7 @@ import heartImg from '../../../assets/img/heart.png';
 import githubImg from '../../../assets/img/github.png';
 import headImg from '../../../assets/img/head.jpg';
 
-import { Input, Button, Menu, Icon, MessageBox, Message, Upload, Breadcrumb } from 'element-react';
+import { Form, Select, Input, Button, Menu, Icon, MessageBox, Message, Upload, Breadcrumb, DatePicker, Layout } from 'element-react';
 
 //引入包装好的逻辑
 import util from '../../../lib/util';
@@ -25,9 +25,40 @@ export default class Home extends Component {
     this.state = {
       admin: '',
       date: new Date(),
-      imageUrl: '',
+      imageUrl: 'http://pdjslih4r.bkt.clouddn.com/FhJmQZxvD9OHM5dW5yKueCV-X8it',
       postData: {},
+      labelPosition: 'top',
+      form: {
+        email: '',
+        account: '',
+        birthday: '',
 
+      },
+      rules: {
+        email: [
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+        ]
+      },
+      areaOptions: [{
+        value: '哈尔滨'
+      }, {
+        value: '鸡西'
+      }, {
+        value: '佳木斯'
+      }, {
+        value: '七台河'
+      }, {
+        value: '绥化'
+      }, {
+        value: '大庆'
+      }, {
+        value: '绥芬河'
+      }, {
+        value: '齐齐哈尔'
+      }, {
+        value: '牡丹江'
+      },]
     };
   }
   async componentWillMount() {
@@ -97,6 +128,17 @@ export default class Home extends Component {
     }
     return isJPGAndPNG && isLt2M;
   }
+  onEmailChange(value) {
+    this.setState({
+      form: Object.assign({}, this.state.form, { email: value })
+    });
+  }
+  onChange(key, value) {
+    console.log(this.state);
+    this.setState({
+      form: Object.assign({}, this.state.form, { [key]: value })
+    });
+  }
 
   render() {
     return (
@@ -150,28 +192,49 @@ export default class Home extends Component {
               </div>
             </div>
             <div className="bodyContent-body">
-
               <div className="admin-msg">
-                <div className="headImgContent">
-                  <div>头像</div>
-                  <Upload
-                className="avatar-uploader"
-                action="https://upload-z1.qiniup.com"
-                showFileList={true}
-                onSuccess={(res, file) => this.handleAvatarScucess(res, file)}
-                beforeUpload={file => this.beforeAvatarUpload(file)}
-                data={this.state.postData}
-              >
-                {this.state.imageUrl ? <img src={this.state.imageUrl} className="avatar" /> : <i className="el-icon-plus avatar-uploader-icon"></i>}
-              </Upload>
-                </div>
-                <div className="accountContent">
-                  <div>用户名</div>
-                  <Input placeholder="请输入内容" />
-                </div>
-                <div className="passwordContent"></div>
-                <div className="positionContent"></div>
-                <div className="describeContent"></div>
+
+                <Form ref="form" labelPosition={this.state.labelPosition} labelWidth="100" model={this.state.form} rules={this.state.rules} className="demo-form-stacked">
+                  <Form.Item label="头像">
+                    <Upload
+                      className="avatar-uploader"
+                      action="https://upload-z1.qiniup.com"
+                      showFileList={false}
+                      onSuccess={(res, file) => this.handleAvatarScucess(res, file)}
+                      beforeUpload={file => this.beforeAvatarUpload(file)}
+                      data={this.state.postData}
+                    >
+                      {this.state.imageUrl ? <img src={this.state.imageUrl} className="avatarImg" /> : <i className="el-icon-plus avatar-uploader-icon"></i>}
+                    </Upload>
+                  </Form.Item>
+                  <Form.Item value={this.state.form.account} label="管理员名称">
+                    <Input></Input>
+                  </Form.Item>
+                  <Form.Item required={false} prop="email" label="邮箱">
+                    <Input value={this.state.form.email} onChange={this.onEmailChange.bind(this)}></Input>
+                  </Form.Item>
+                  <Form.Item label="生日" required={false}>
+                    <DatePicker
+                      value={this.state.form.birthday}
+                      placeholder="选择日期"
+                      onChange={this.onChange.bind(this, 'birthday')}
+                    />
+                  </Form.Item>
+                  <Form.Item label="地区">
+                    <Select value={this.state.value}>
+                      {
+                        this.state.areaOptions.map(el => {
+                          return <Select.Option key={el.value} label={el.value} value={el.value} />
+                        })
+                      }
+                    </Select>
+                  </Form.Item>
+                  <Form.Item label="自我说明">
+                    <Input type="textarea"
+                      rows='4' resize='none' value={this.state.form.describe} onChange={this.onChange.bind(this, 'describe')}></Input>
+
+                  </Form.Item>
+                </Form>
               </div>
             </div>
           </div>
