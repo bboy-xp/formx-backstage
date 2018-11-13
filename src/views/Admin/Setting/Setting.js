@@ -29,9 +29,12 @@ export default class Home extends Component {
       postData: {},
       labelPosition: 'top',
       form: {
-        email: '',
+        imageUrl: '',
         account: '',
-        birthday: '',
+        email: '',
+        birthday: {},
+        area: '',
+        describe: '',
 
       },
       rules: {
@@ -111,7 +114,11 @@ export default class Home extends Component {
   handleAvatarScucess(res, file) {
     const newImageUrl = 'http://pdjslih4r.bkt.clouddn.com/' + res.key;
     console.log(newImageUrl);
-    this.setState({ imageUrl: newImageUrl });
+    this.setState({
+      imageUrl: newImageUrl,
+      form: Object.assign({}, this.state.form, { ['imageUrl']: newImageUrl })
+
+    });
   }
   beforeAvatarUpload(file) {
     console.log(file.type);
@@ -134,10 +141,20 @@ export default class Home extends Component {
     });
   }
   onChange(key, value) {
-    console.log(this.state);
+    // console.log(typeof(value));
+    console.log(this.state.form);
     this.setState({
       form: Object.assign({}, this.state.form, { [key]: value })
     });
+  }
+  handleSubmit = async () => {
+    console.log(this.state.form);
+    const reqData = {
+      account: this.state.admin,
+      adminMsg: this.state.form
+    }
+    const updateAdmin = await axios.post('/backstage/updateAdmin', reqData);
+    console.log(updateAdmin.data);
   }
 
   render() {
@@ -208,7 +225,7 @@ export default class Home extends Component {
                     </Upload>
                   </Form.Item>
                   <Form.Item value={this.state.form.account} label="管理员名称">
-                    <Input></Input>
+                    <Input onChange={this.onChange.bind(this, 'account')}></Input>
                   </Form.Item>
                   <Form.Item required={false} prop="email" label="邮箱">
                     <Input value={this.state.form.email} onChange={this.onEmailChange.bind(this)}></Input>
@@ -217,11 +234,12 @@ export default class Home extends Component {
                     <DatePicker
                       value={this.state.form.birthday}
                       placeholder="选择日期"
+
                       onChange={this.onChange.bind(this, 'birthday')}
                     />
                   </Form.Item>
                   <Form.Item label="地区">
-                    <Select value={this.state.value}>
+                    <Select onChange={this.onChange.bind(this, 'area')} value={this.state.value}>
                       {
                         this.state.areaOptions.map(el => {
                           return <Select.Option key={el.value} label={el.value} value={el.value} />
@@ -232,7 +250,9 @@ export default class Home extends Component {
                   <Form.Item label="自我说明">
                     <Input type="textarea"
                       rows='4' resize='none' value={this.state.form.describe} onChange={this.onChange.bind(this, 'describe')}></Input>
-
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" onClick={this.handleSubmit}>保存</Button>
                   </Form.Item>
                 </Form>
               </div>
