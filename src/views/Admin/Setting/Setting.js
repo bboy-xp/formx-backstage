@@ -25,7 +25,7 @@ export default class Home extends Component {
     this.state = {
       admin: '',
       date: new Date(),
-      imageUrl: 'http://pdjslih4r.bkt.clouddn.com/FhJmQZxvD9OHM5dW5yKueCV-X8it',
+      // imageUrl: 'http://pdjslih4r.bkt.clouddn.com/FhJmQZxvD9OHM5dW5yKueCV-X8it',
       postData: {},
       labelPosition: 'top',
       form: {
@@ -79,7 +79,22 @@ export default class Home extends Component {
       () => this.tick(),
       300
     );
-
+    // 获取管理员数据
+    const getTargetAdmin = await axios.post("/backstage/getTargetAdmin", { account: account });
+    const newForm = {
+      imageUrl: getTargetAdmin.data.message.imageUrl,
+      account: getTargetAdmin.data.message.account,
+      email: getTargetAdmin.data.message.email,
+      birthday: new Date(getTargetAdmin.data.message.birthday),
+      area: getTargetAdmin.data.message.area,
+      describe: getTargetAdmin.data.message.describe
+    }
+    console.log(newForm);
+    this.setState({
+      form: newForm
+    }, () => {
+      console.log(this.state);
+    })
     //获取上传图片的upToken
     const getUpToken = await axios.get("/backstage/getUpToken");
     console.log(getUpToken.data);
@@ -154,7 +169,17 @@ export default class Home extends Component {
       adminMsg: this.state.form
     }
     const updateAdmin = await axios.post('/backstage/updateAdmin', reqData);
-    console.log(updateAdmin.data);
+    //消息提示
+    Message({
+      type: 'success',
+      message: '保存成功'
+    });
+    if (updateAdmin.data.message.account !== this.state.admin) {
+      localStorage.admin = '';
+      this.props.history.push({
+        pathname: '/admin/login',
+      })
+    }
   }
 
   render() {
@@ -221,11 +246,11 @@ export default class Home extends Component {
                       beforeUpload={file => this.beforeAvatarUpload(file)}
                       data={this.state.postData}
                     >
-                      {this.state.imageUrl ? <img src={this.state.imageUrl} className="avatarImg" /> : <i className="el-icon-plus avatar-uploader-icon"></i>}
+                      {this.state.form.imageUrl ? <img src={this.state.form.imageUrl} className="avatarImg" /> : <i className="el-icon-plus avatar-uploader-icon"></i>}
                     </Upload>
                   </Form.Item>
-                  <Form.Item value={this.state.form.account} label="管理员名称">
-                    <Input onChange={this.onChange.bind(this, 'account')}></Input>
+                  <Form.Item label="管理员名称">
+                    <Input value={this.state.form.account} onChange={this.onChange.bind(this, 'account')}></Input>
                   </Form.Item>
                   <Form.Item required={false} prop="email" label="邮箱">
                     <Input value={this.state.form.email} onChange={this.onEmailChange.bind(this)}></Input>
@@ -239,7 +264,7 @@ export default class Home extends Component {
                     />
                   </Form.Item>
                   <Form.Item label="地区">
-                    <Select onChange={this.onChange.bind(this, 'area')} value={this.state.value}>
+                    <Select onChange={this.onChange.bind(this, 'area')} value={this.state.form.area}>
                       {
                         this.state.areaOptions.map(el => {
                           return <Select.Option key={el.value} label={el.value} value={el.value} />
