@@ -161,6 +161,7 @@
 .bodyContent-body {
   flex: 1;
   padding: 30px 30px 50px 30px;
+  overflow: hidden;
 }
 .linkText {
   color: #1d8ce0;
@@ -170,4 +171,26 @@
 }
 .el-menu--dark {
   background-color: #364150!important;
+}
+.echartsBox {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.echartsBox-bar {
+  flex-basis: 13%;
+  border: 1px solid #ebebeb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.echartsBox-bar-blank {
+  padding: 15px;
+}
+.echartsBox-body {
+  flex: 1;
 }

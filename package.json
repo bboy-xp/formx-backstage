@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "element-react": "^1.4.20",
+    "echarts": "^4.2.0-rc.2",
+    "element-react": "^1.4.24",
     "element-theme-default": "^1.4.13",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
