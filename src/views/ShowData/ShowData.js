@@ -14,17 +14,18 @@ import headImg from '../../assets/img/head.jpg';
 
 import { Button, Menu, Breadcrumb, DatePicker, } from 'element-react';
 
+// 引入 ECharts 主模块
+import echarts from 'echarts/lib/echarts';
+// 引入折线图
+import  'echarts/lib/chart/line';
+// 引入提示框和标题组件
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/title';
+
 //引入包装好的逻辑
 import util from '../../lib/util';
 const { checkLogin, gotoHome, gotoShowData } = util;
 
-// // 引入 ECharts 主模块
-// import echarts from 'echarts/dist/echarts.common';
-// // 引入折线图
-// import  'echarts/lib/chart/line';
-// // 引入提示框和标题组件
-// import 'echarts/lib/component/tooltip';
-// import 'echarts/lib/component/title';
 
 export default class Home extends Component {
 
@@ -132,6 +133,11 @@ export default class Home extends Component {
       () => this.tick(),
       300
     );
+  }
+  componentDidMount() {
+    // 基于准备好的dom，初始化echarts实例
+    const myChart = echarts.init(document.getElementById('chart'));
+    myChart.setOption(this.state.option);
   }
   tick() {
     this.setState({
