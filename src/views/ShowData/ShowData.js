@@ -34,6 +34,7 @@ export default class Home extends Component {
     this.state = {
       date: new Date(),
       selectDate: new Date(),
+      echartData: [820, 932, 901, 934, 1290, 1330, 1320],
       option: {
         title: {
           text: '七天提交量'
@@ -72,7 +73,7 @@ export default class Home extends Component {
             }
           },
           smooth: true,//折线图是趋缓的
-          data: [820, 932, 901, 934, 1290, 1330, 1320]
+          data: []
         }
       }
     };
@@ -113,10 +114,20 @@ export default class Home extends Component {
       300
     );
   }
-  componentDidMount() {
+  async componentDidMount() {
     // 基于准备好的dom，初始化echarts实例
     const myChart = echarts.init(document.getElementById('chart'));
     myChart.setOption(this.state.option);
+
+    //请求后端获取echart的data
+    const getEchartData = await axios.post('/backstage/getEchartData',{
+      selectDate: this.state.selectDate
+    });
+    console.log(getEchartData.data);
+    myChart.setOption({series:[{
+      name: '提交总量',
+      data: this.state.echartData
+    }]})
   }
   tick() {
     this.setState({
