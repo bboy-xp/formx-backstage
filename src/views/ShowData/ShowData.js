@@ -51,7 +51,7 @@ export default class Home extends Component {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+          data: []
         },
         yAxis: {
           type: 'value'
@@ -115,19 +115,38 @@ export default class Home extends Component {
     );
   }
   async componentDidMount() {
+    //format xAxis
+    const now = this.state.selectDate;
+    const time1 = now.toLocaleDateString();
+    const time2 = new Date(now.getTime() - 3600 * 1000 * 24).toLocaleDateString();
+    const time3 = new Date(now.getTime() - 3600 * 1000 * 24 * 2).toLocaleDateString();
+    const time4 = new Date(now.getTime() - 3600 * 1000 * 24 * 3).toLocaleDateString();
+    const time5 = new Date(now.getTime() - 3600 * 1000 * 24 * 4).toLocaleDateString();
+    const time6 = new Date(now.getTime() - 3600 * 1000 * 24 * 5).toLocaleDateString();
+    const time7 = new Date(now.getTime() - 3600 * 1000 * 24 * 6).toLocaleDateString();
+    const xAxisData = [time7, time6, time5, time4, time3, time2, time1]
+
     // 基于准备好的dom，初始化echarts实例
     const myChart = echarts.init(document.getElementById('chart'));
     myChart.setOption(this.state.option);
 
+    myChart.setOption({
+      xAxis: {
+        data: xAxisData
+      }
+    })
+
     //请求后端获取echart的data
-    const getEchartData = await axios.post('/backstage/getEchartData',{
+    const getEchartData = await axios.post('/backstage/getEchartData', {
       selectDate: this.state.selectDate
     });
-    console.log(getEchartData.data);
-    myChart.setOption({series:[{
-      name: '提交总量',
-      data: this.state.echartData
-    }]})
+    // console.log(getEchartData.data);
+    myChart.setOption({
+      series: [{
+        name: '提交总量',
+        data: getEchartData.data.message
+      }]
+    })
   }
   tick() {
     this.setState({
@@ -141,6 +160,20 @@ export default class Home extends Component {
   }
   handelClickGotoShowData = () => {
     gotoShowData(this.props);
+  }
+  handelClickGetEchartData = async () => {
+    const myChart = echarts.init(document.getElementById('chart'));
+    //请求后端获取echart的data
+    const getEchartData = await axios.post('/backstage/getEchartData', {
+      selectDate: this.state.selectDate
+    });
+    // console.log(getEchartData.data);
+    myChart.setOption({
+      series: [{
+        name: '提交总量',
+        data: getEchartData.data.message
+      }]
+    })
   }
   render() {
     return (
@@ -210,7 +243,7 @@ export default class Home extends Component {
                     disabledDate={time => time.getTime() > Date.now() - 8.64e7 + 3600 * 1000 * 24}
                   />
                   <div className="echartsBox-bar-blank"></div>
-                  <Button type="primary">确定</Button>
+                  <Button type="primary" onClick={this.handelClickGetEchartData}>确定</Button>
                 </div>
                 <div className="echartsBox-body">
                   <div id="chart"></div>
