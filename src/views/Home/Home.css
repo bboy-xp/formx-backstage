@@ -163,3 +163,12 @@
 .block {
   padding: 30px 0 0 20px;
 }
+.carouselContent {
+  width: 800px;
+  margin: auto;
+}
+.carouselImg {
+  max-width: 100%;
+  position: relative;
+  top: -60px;
+}

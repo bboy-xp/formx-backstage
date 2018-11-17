@@ -12,7 +12,7 @@ import heartImg from '../../assets/img/heart.png';
 import githubImg from '../../assets/img/github.png';
 import headImg from '../../assets/img/head.jpg';
 
-import { Button, Menu, Breadcrumb, Icon, Tag, Table, MessageBox, Message, Pagination } from 'element-react';
+import { Button, Menu, Breadcrumb, Icon, Tag, Table, MessageBox, Message, Pagination, Carousel } from 'element-react';
 
 //引入包装好的逻辑
 import util from '../../lib/util';
@@ -64,6 +64,14 @@ export default class Home extends Component {
             )
           }
         }
+      ],
+      carouselImgSrc: [
+        'http://pdjslih4r.bkt.clouddn.com/5949e38be7bce77b1b837917.jpg',
+        'http://pdjslih4r.bkt.clouddn.com/5949e387e7bce77ac59c599b.jpg',
+        'http://pdjslih4r.bkt.clouddn.com/1F40G10134-2.jpg',
+        'http://pdjslih4r.bkt.clouddn.com/58e5a650ae445.jpg',
+        'http://pdjslih4r.bkt.clouddn.com/5949d9b1e7bce77a990ce1c7.jpg',
+        'http://pdjslih4r.bkt.clouddn.com/594cd1a8e7bce77a7c93ab4e.jpg',
       ]
     };
   }
@@ -173,12 +181,25 @@ export default class Home extends Component {
               </div>
             </div>
             <div className="bodyContent-body">
+              <div className="carouselContent">
+                <Carousel interval="4000" type="card" height="155px">
+                  {
+                    this.state.carouselImgSrc.map((item, index) => {
+                      return (
+                        <Carousel.Item key={index}>
+                          <img className="carouselImg" src={item} alt="404"/>
+                        </Carousel.Item>
+                      )
+                    })
+                  }
+                </Carousel>
+              </div>
               <Table
                 style={{ width: '100%' }}
                 columns={this.state.columns}
                 data={this.state.allForms}
                 border={true}
-                height={700}
+                height={500}
                 highlightCurrentRow={true}
                 stripe={true}
               />
