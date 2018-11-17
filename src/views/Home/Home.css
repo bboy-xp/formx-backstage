@@ -164,11 +164,11 @@
   padding: 30px 0 0 20px;
 }
 .carouselContent {
-  width: 800px;
+  width: 1000px;
   margin: auto;
 }
 .carouselImg {
   max-width: 100%;
   position: relative;
-  top: -60px;
+  top: -110px;
 }
