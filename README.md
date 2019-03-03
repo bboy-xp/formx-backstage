@@ -25,7 +25,7 @@
 ![one](https://github.com/bboy-xp/formx-backstage/blob/master/gif/1.gif)
 ![two](https://github.com/bboy-xp/formx-backstage/blob/master/gif/2.gif)
 ![three](https://github.com/bboy-xp/formx-backstage/blob/master/gif/3.gif)
-![three](https://github.com/bboy-xp/formx-backstage/blob/master/gif/4.gif)
+
 
 > &#x26A0; Tips：欢迎在我的 [GitHub Issue](https://github.com/bboy-xp/formx-backstage/issues) 页沟通交流并提出您的宝贵建议，您的建议是我成长的动力来源 &#x1F603;
 

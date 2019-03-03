@@ -66,12 +66,11 @@ export default class Home extends Component {
         }
       ],
       carouselImgSrc: [
-        'http://pdjslih4r.bkt.clouddn.com/5949e38be7bce77b1b837917.jpg',
-        'http://pdjslih4r.bkt.clouddn.com/5949e387e7bce77ac59c599b.jpg',
-        'http://pdjslih4r.bkt.clouddn.com/1F40G10134-2.jpg',
-        'http://pdjslih4r.bkt.clouddn.com/58e5a650ae445.jpg',
-        'http://pdjslih4r.bkt.clouddn.com/5949d9b1e7bce77a990ce1c7.jpg',
-        'http://pdjslih4r.bkt.clouddn.com/594cd1a8e7bce77a7c93ab4e.jpg',
+        'http://pns17yito.bkt.clouddn.com/54c9cd51d0947.jpg',
+        'http://pns17yito.bkt.clouddn.com/5487b1db4e0a5.png',
+        'http://pns17yito.bkt.clouddn.com/53fee2665ba55.jpg',
+        'http://pns17yito.bkt.clouddn.com/23e0c41f2bce19a33c18cfcec1b8a7d.jpg',
+        'http://pns17yito.bkt.clouddn.com/logo2.png',
       ]
     };
   }

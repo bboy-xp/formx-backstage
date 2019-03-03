@@ -25,7 +25,6 @@ export default class Home extends Component {
     this.state = {
       admin: '',
       date: new Date(),
-      // imageUrl: 'http://pdjslih4r.bkt.clouddn.com/FhJmQZxvD9OHM5dW5yKueCV-X8it',
       postData: {},
       labelPosition: 'top',
       form: {
@@ -127,7 +126,7 @@ export default class Home extends Component {
     });
   }
   handleAvatarScucess(res, file) {
-    const newImageUrl = 'http://pdjslih4r.bkt.clouddn.com/' + res.key;
+    const newImageUrl = 'http://pj9nmdtn7.bkt.clouddn.com/' + res.key;
     console.log(newImageUrl);
     this.setState({
       imageUrl: newImageUrl,
@@ -240,7 +239,7 @@ export default class Home extends Component {
                   <Form.Item label="头像">
                     <Upload
                       className="avatar-uploader"
-                      action="https://upload-z1.qiniup.com"
+                      action="https://upload-z0.qiniup.com"
                       showFileList={false}
                       onSuccess={(res, file) => this.handleAvatarScucess(res, file)}
                       beforeUpload={file => this.beforeAvatarUpload(file)}
